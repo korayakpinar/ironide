@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ironide", "ironide.csproj", "{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ironide", "src/ironide.csproj", "{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C62A48C2-F20A-4DC8-AB00-426ECDE2BA4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE} = {C62A48C2-F20A-4DC8-AB00-426ECDE2BA4B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {861D989D-70CD-4C33-9F4D-4CF7FE9A43D8}
