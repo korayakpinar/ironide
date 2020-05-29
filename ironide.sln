@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ironide", "src/ironide.csproj", "{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ironide", "src\ironide.csproj", "{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C62A48C2-F20A-4DC8-AB00-426ECDE2BA4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{659DB52E-0D14-452A-95DC-EB73217B6291}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
