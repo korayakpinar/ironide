@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ironide", "ironide.csproj", "{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F9645F7-3810-4C22-A2E6-0F46EA36DEFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {861D989D-70CD-4C33-9F4D-4CF7FE9A43D8}
+	EndGlobalSection
+EndGlobal
