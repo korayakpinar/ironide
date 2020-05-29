@@ -32,9 +32,10 @@ namespace test_app {
         /// </summary>
         [STAThread]
         static void Main() {
+            Control.CheckForIllegalCrossThreadCalls = false;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new app());
         }
     }
 }
