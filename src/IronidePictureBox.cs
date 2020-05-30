@@ -22,7 +22,10 @@ namespace Ironide {
 
         protected override void OnPaint(PaintEventArgs e) {
             if(Image != null) {
-                e.Graphics.DrawImage(Image,ClientRectangle);
+                if(SizeMode == IronideImageSizeMode.None)
+                    e.Graphics.DrawImage(Image,Point.Empty);
+                else
+                    e.Graphics.DrawImage(Image,ClientRectangle);
             }
 
             base.OnPaint(e);
@@ -38,7 +41,7 @@ namespace Ironide {
         /// </summary>
         [Description("Image.")]
         [DefaultValue(null)]
-        public Image Image {
+        public virtual Image Image {
             get => image;
             set {
                 if(value == image)
@@ -49,6 +52,32 @@ namespace Ironide {
             }
         }
 
+        private IronideImageSizeMode sizeMode = IronideImageSizeMode.None;
+        /// <summary>
+        /// Size mode of Image.
+        /// </summary>
+        [Description("Size mode of Image.")]
+        [DefaultValue(typeof(IronideImageSizeMode),"None")]
+        public virtual IronideImageSizeMode SizeMode {
+            get => sizeMode;
+            set {
+                if(value == sizeMode)
+                    return;
+
+                sizeMode = value;
+                if(Image != null)
+                    Invalidate();
+            }
+        }
+
         #endregion
+    }
+
+    /// <summary>
+    /// Image size mode of Ironide.
+    /// </summary>
+    public enum IronideImageSizeMode {
+        None = 0,
+        Stretch = 1
     }
 }
