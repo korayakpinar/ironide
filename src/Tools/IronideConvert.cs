@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace Ironide.Tools {
@@ -53,6 +54,38 @@ namespace Ironide.Tools {
             }
 
             return format;
+        }
+
+        /// <summary>
+        /// Returns Rectangle as rounded GraphicsPath.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="angle">Round angle.</param>
+        public static GraphicsPath ToRoundedPath(Rectangle rect,int angle) {
+            var gp = new GraphicsPath();
+            gp.StartFigure();
+            gp.AddArc(0,0,angle,angle,180,90);
+            gp.AddLine(angle,1,rect.Width - angle,0.7F);
+            gp.AddArc(rect.Width - angle,0,angle,angle,270,90);
+            gp.AddLine(rect.Width,angle,rect.Width,rect.Height - angle);
+            gp.AddArc(rect.Width - angle,rect.Height - angle,angle,angle,0,90);
+            gp.AddLine(rect.Width - angle,rect.Height,angle,rect.Height);
+            gp.AddArc(0,rect.Height - angle,angle,angle,90,90);
+            gp.AddLine(1,angle,1,rect.Height - angle);
+            gp.CloseFigure();
+            return gp;
+        }
+
+        /// <summary>
+        /// Returns Rectangle as rounded Region.
+        /// </summary>
+        /// <param name="rect">Rectangle.</param>
+        /// <param name="angle">Round angle.</param>
+        public static Region ToRoundedRegion(Rectangle rect,int angle) {
+            var gp = ToRoundedPath(rect,angle);
+            var rg = new Region(gp);
+            gp.Dispose();
+            return rg;
         }
     }
 }
