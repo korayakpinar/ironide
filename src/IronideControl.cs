@@ -32,6 +32,17 @@ namespace Ironide {
             }
         }
 
+        public override string Text {
+            get => base.Text;
+            set {
+                if(value == base.Text)
+                    return;
+
+                base.Text=value;
+                Invalidate();
+            }
+        }
+
         #endregion
     }
 }
