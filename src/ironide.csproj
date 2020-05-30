@@ -52,6 +52,9 @@
     <Compile Include="IronideControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="IronideLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\IronideConvert.cs" />
   </ItemGroup>
