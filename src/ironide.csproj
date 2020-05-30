@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IIronideControl.cs" />
+    <Compile Include="IronideButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="IronideControl.cs">
       <SubType>Component</SubType>
     </Compile>

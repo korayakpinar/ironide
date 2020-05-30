@@ -5,7 +5,7 @@ namespace Ironide {
     /// <summary>
     /// Control template of Ironide.
     /// </summary>
-    public abstract partial class IronideControl:Control, IIronideControl {
+    public abstract class IronideControl:Control, IIronideControl {
         #region Properties
 
         private Color borderColor;
