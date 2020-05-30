@@ -29,6 +29,7 @@ namespace Ironide {
 
         protected override void OnPaint(PaintEventArgs e) {
             DrawText(e.Graphics);
+            DrawEnable(e.Graphics);
         }
 
         /// <summary>
@@ -38,6 +39,18 @@ namespace Ironide {
         public virtual void DrawBackground(Graphics graphics) {
             using(var bgbrush = new SolidBrush(BackColor))
                 graphics.FillRectangle(bgbrush,ClientRectangle);
+        }
+
+        /// <summary>
+        /// Draw enable.
+        /// </summary>
+        /// <param name="graphics">Graphics.</param>
+        public virtual void DrawEnable(Graphics graphics) {
+            if(Enabled)
+                return;
+
+            using(var enbrush = new SolidBrush(Color.FromArgb(200,Color.Gainsboro)))
+                graphics.FillRectangle(enbrush,ClientRectangle);
         }
 
         /// <summary>
