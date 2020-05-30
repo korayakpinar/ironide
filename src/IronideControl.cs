@@ -23,20 +23,43 @@ namespace Ironide {
         #region Drawing
 
         protected override void OnPaintBackground(PaintEventArgs e) {
-            using(var bgbrush = new SolidBrush(BackColor))
-                e.Graphics.FillRectangle(bgbrush,ClientRectangle);
+            DrawBackground(e.Graphics);
+            DrawBorder(e.Graphics);
+        }
 
+        protected override void OnPaint(PaintEventArgs e) {
+            DrawText(e.Graphics);
+        }
+
+        /// <summary>
+        /// Draw background.
+        /// </summary>
+        /// <param name="graphics">Graphics.</param>
+        public virtual void DrawBackground(Graphics graphics) {
+            using(var bgbrush = new SolidBrush(BackColor))
+                graphics.FillRectangle(bgbrush,ClientRectangle);
+        }
+
+        /// <summary>
+        /// Draw borders.
+        /// </summary>
+        /// <param name="graphics">Graphics.</param>
+        public virtual void DrawBorder(Graphics graphics) {
             var bs = IronideConvert.ToButtonBorderStyle(BorderStyle);
-            ControlPaint.DrawBorder(e.Graphics,ClientRectangle,BorderColor,
+            ControlPaint.DrawBorder(graphics,ClientRectangle,BorderColor,
                 BorderThickness,bs,BorderColor,BorderThickness,bs,
                 BorderColor,BorderThickness,bs,BorderColor,
                 BorderThickness,bs);
         }
 
-        protected override void OnPaint(PaintEventArgs e) {
+        /// <summary>
+        /// Draw text.
+        /// </summary>
+        /// <param name="graphics">Graphics.</param>
+        public virtual void DrawText(Graphics graphics) {
             using(var fgbrush = new SolidBrush(ForeColor))
             using(var format = IronideConvert.ToStringFormat(TextAlign))
-                e.Graphics.DrawString(Text,Font,fgbrush,ClientRectangle,format);
+                graphics.DrawString(Text,Font,fgbrush,ClientRectangle,format);
         }
 
         #endregion
@@ -99,7 +122,7 @@ namespace Ironide {
         private IronideBorderStyle borderStyle = IronideBorderStyle.Solid;
         [Description("Style of border.")]
         [DefaultValue(typeof(IronideBorderStyle),"Solid")]
-        public IronideBorderStyle BorderStyle {
+        public virtual IronideBorderStyle BorderStyle {
             get => borderStyle;
             set {
                 if(value == borderStyle)
@@ -113,7 +136,7 @@ namespace Ironide {
         private ContentAlignment textAlign = ContentAlignment.TopLeft;
         [Description("Align of text.")]
         [DefaultValue(typeof(ContentAlignment),"TopLeft")]
-        public ContentAlignment TextAlign {
+        public virtual ContentAlignment TextAlign {
             get => textAlign;
             set {
                 if(value == textAlign)
