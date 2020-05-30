@@ -74,5 +74,11 @@
     </Compile>
     <None Include="test-app.snk" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\src\ironide.csproj">
+      <Project>{8f9645f7-3810-4c22-a2e6-0f46ea36defe}</Project>
+      <Name>ironide</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
