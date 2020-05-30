@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Ironide {
     /// <summary>
-    /// Panel of Ironide.
+    /// PictureBox of Ironide.
     /// </summary>
-    public class IronidePanel:IronideControl {
+    public class IronidePictureBox:IronidePanel {
         #region Constructors
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public IronidePanel() {
+        public IronidePictureBox() {
 
         }
 
@@ -20,29 +21,30 @@ namespace Ironide {
         #region Drawing
 
         protected override void OnPaint(PaintEventArgs e) {
-            if(TextRender)
-                DrawText(e.Graphics);
-            DrawBorder(e.Graphics);
-            DrawEnable(e.Graphics);
+            if(Image != null) {
+                e.Graphics.DrawImage(Image,ClientRectangle);
+            }
+
+            base.OnPaint(e);
         }
 
         #endregion
 
         #region Properties
 
-        private bool textRender = false;
+        public Image image = null;
         /// <summary>
-        /// Render text.
+        /// Image.
         /// </summary>
-        [Description("Render text.")]
-        [DefaultValue(false)]
-        public bool TextRender {
-            get => textRender;
+        [Description("Image.")]
+        [DefaultValue(null)]
+        public Image Image {
+            get => image;
             set {
-                if(value == textRender)
+                if(value == image)
                     return;
 
-                textRender = value;
+                image = value;
                 Invalidate();
             }
         }

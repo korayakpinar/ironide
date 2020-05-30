@@ -26,8 +26,6 @@ namespace Ironide {
             using(var bgbrush = new SolidBrush(
                 IsEntered ? EnterColor : IsMouseEnter ? HoverColor : BackColor))
                 e.Graphics.FillRectangle(bgbrush,ClientRectangle);
-
-            DrawBorder(e.Graphics);
         }
 
         protected override void OnPaint(PaintEventArgs e) {
@@ -41,6 +39,9 @@ namespace Ironide {
                     e.Graphics.DrawString(Text,Font,fgbrush,new Rectangle(
                         X,0,Width-X,Height),format);
             }
+
+            DrawBorder(e.Graphics);
+            DrawEnable(e.Graphics);
         }
 
         #endregion

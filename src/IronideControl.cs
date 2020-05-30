@@ -23,11 +23,11 @@ namespace Ironide {
 
         protected override void OnPaintBackground(PaintEventArgs e) {
             DrawBackground(e.Graphics);
-            DrawBorder(e.Graphics);
         }
 
         protected override void OnPaint(PaintEventArgs e) {
             DrawText(e.Graphics);
+            DrawBorder(e.Graphics);
             DrawEnable(e.Graphics);
         }
 
