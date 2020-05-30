@@ -24,7 +24,7 @@ namespace Ironide {
 
         protected override void OnPaintBackground(PaintEventArgs e) {
             using(var bgbrush = new SolidBrush(
-                IsMouseEnter ? HoverColor : BackColor))
+                IsEntered ? EnterColor : IsMouseEnter ? HoverColor : BackColor))
                 e.Graphics.FillRectangle(bgbrush,ClientRectangle);
 
             DrawBorder(e.Graphics);
@@ -57,6 +57,36 @@ namespace Ironide {
             IsMouseEnter = false;
 
             base.OnMouseLeave(e);
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e) {
+            IsEntered = true;
+
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e) {
+            IsEntered = false;
+
+            base.OnMouseUp(e);
+        }
+
+        #endregion
+
+        #region Key override
+
+        protected override void OnKeyDown(KeyEventArgs e) {
+            if(e.KeyCode == Keys.Enter)
+                IsEntered = true;
+
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e) {
+            if(e.KeyCode == Keys.Enter)
+                IsEntered = false;
+
+            base.OnKeyUp(e);
         }
 
         #endregion
@@ -94,6 +124,41 @@ namespace Ironide {
 
                 hoverColor = value;
                 if(IsMouseEnter)
+                    Invalidate();
+            }
+        }
+
+        private bool isEntered = false;
+        /// <summary>
+        /// Is entered.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual bool IsEntered {
+            get => isEntered;
+            private set {
+                if(value == isEntered)
+                    return;
+
+                isEntered = value;
+                Invalidate();
+            }
+        }
+
+        private Color enterColor = Color.SteelBlue;
+        /// <summary>
+        /// Mouse entering color.
+        /// </summary>
+        [Description("Mouse entering color.")]
+        [DefaultValue(typeof(Color),"SteelBlue")]
+        public virtual Color EnterColor {
+            get => enterColor;
+            set {
+                if(value == enterColor)
+                    return;
+
+                enterColor = value;
+                if(IsEntered)
                     Invalidate();
             }
         }

@@ -7,15 +7,14 @@ namespace Ironide {
     /// <summary>
     /// Control template of Ironide.
     /// </summary>
-    public abstract class IronideControl:Control, IIronideControl {
+    public abstract partial class IronideControl:Control, IIronideControl {
         #region Constructors
 
         /// <summary>
         /// Constructor.
         /// </summary>
         public IronideControl() {
-            BackColor = Color.White;
-            ForeColor = Color.Black;
+            Init();
         }
 
         #endregion
@@ -162,6 +161,22 @@ namespace Ironide {
         }
 
         #endregion
+    }
+
+    // Designer.
+    public abstract partial class IronideControl {
+        /// <summary>
+        /// Initialize component.
+        /// </summary>
+        protected void Init() {
+            SetStyle(ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.ResizeRedraw |
+                ControlStyles.SupportsTransparentBackColor |
+                ControlStyles.OptimizedDoubleBuffer,true);
+
+            BackColor = Color.White;
+            ForeColor = Color.Black;
+        }
     }
 
     /// <summary>
