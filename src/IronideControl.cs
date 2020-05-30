@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Ironide.Tools;
 
 namespace Ironide {
     /// <summary>
@@ -25,10 +26,17 @@ namespace Ironide {
             using(var bgbrush = new SolidBrush(BackColor))
                 e.Graphics.FillRectangle(bgbrush,ClientRectangle);
 
+            var bs = IronideConvert.ToButtonBorderStyle(BorderStyle);
             ControlPaint.DrawBorder(e.Graphics,ClientRectangle,BorderColor,
-                BorderThickness,ButtonBorderStyle.Solid,BorderColor,BorderThickness,ButtonBorderStyle.Solid,
-                BorderColor,BorderThickness,ButtonBorderStyle.Solid,BorderColor,
-                BorderThickness,ButtonBorderStyle.Solid);
+                BorderThickness,bs,BorderColor,BorderThickness,bs,
+                BorderColor,BorderThickness,bs,BorderColor,
+                BorderThickness,bs);
+        }
+
+        protected override void OnPaint(PaintEventArgs e) {
+            using(var fgbrush = new SolidBrush(ForeColor))
+            using(var format = IronideConvert.ToStringFormat(TextAlign))
+                e.Graphics.DrawString(Text,Font,fgbrush,ClientRectangle,format);
         }
 
         #endregion
@@ -99,6 +107,21 @@ namespace Ironide {
 
                 borderStyle = value;
                 Invalidate();
+            }
+        }
+
+        private ContentAlignment textAlign = ContentAlignment.TopLeft;
+        [Description("Align of text.")]
+        [DefaultValue(typeof(ContentAlignment),"TopLeft")]
+        public ContentAlignment TextAlign {
+            get => textAlign;
+            set {
+                if(value == textAlign)
+                    return;
+
+                textAlign = value;
+                if(!string.IsNullOrEmpty(Text))
+                    Invalidate();
             }
         }
 

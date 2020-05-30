@@ -16,6 +16,11 @@ namespace Ironide {
         IronideBorderStyle BorderStyle { get; set; }
 
         /// <summary>
+        /// Align of text.
+        /// </summary>
+        ContentAlignment TextAlign { get; set; }
+
+        /// <summary>
         /// Color of border.
         /// </summary>
         Color BorderColor { get; set; }
