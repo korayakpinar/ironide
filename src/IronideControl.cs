@@ -7,6 +7,18 @@ namespace Ironide {
     /// Control template of Ironide.
     /// </summary>
     public abstract class IronideControl:Control, IIronideControl {
+        #region Constructors
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public IronideControl() {
+            BackColor = Color.White;
+            ForeColor = Color.Black;
+        }
+
+        #endregion
+
         #region Drawing
 
         protected override void OnPaintBackground(PaintEventArgs e) {
@@ -23,7 +35,7 @@ namespace Ironide {
 
         #region Properties
 
-        private Color borderColor;
+        private Color borderColor = Color.DodgerBlue;
         [Description("Color of border.")]
         [DefaultValue(typeof(Color),"DodgerBlue")]
         public virtual Color BorderColor {
@@ -37,7 +49,7 @@ namespace Ironide {
             }
         }
 
-        private int borderThickness;
+        private int borderThickness = 1;
         [Description("Thickness of boder.")]
         [DefaultValue(1)]
         public virtual int BorderThickness {
@@ -76,6 +88,31 @@ namespace Ironide {
             }
         }
 
+        private IronideBorderStyle borderStyle = IronideBorderStyle.Solid;
+        [Description("Style of border.")]
+        [DefaultValue(typeof(IronideBorderStyle),"Solid")]
+        public IronideBorderStyle BorderStyle {
+            get => borderStyle;
+            set {
+                if(value == borderStyle)
+                    return;
+
+                borderStyle = value;
+                Invalidate();
+            }
+        }
+
         #endregion
+    }
+
+    /// <summary>
+    /// Border styles of Ironide.
+    /// </summary>
+    public enum IronideBorderStyle {
+        Solid = 0,
+        Dashed = 1,
+        Dotted = 2,
+        Inset = 3,
+        Outset = 4
     }
 }
