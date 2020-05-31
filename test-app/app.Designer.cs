@@ -23,17 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.ıronidePanel1 = new Ironide.IronidePanel();
             this.SuspendLayout();
-            // 
-            // ıronidePanel1
-            // 
-            this.ıronidePanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ıronidePanel1.Location = new System.Drawing.Point(0, 0);
-            this.ıronidePanel1.Name = "ıronidePanel1";
-            this.ıronidePanel1.Size = new System.Drawing.Size(800, 450);
-            this.ıronidePanel1.TabIndex = 2;
-            this.ıronidePanel1.Text = "ıronidePanel1";
             // 
             // app
             // 
@@ -42,15 +32,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.ıronidePanel1);
             this.Name = "app";
-            this.Controls.SetChildIndex(this.ıronidePanel1, 0);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Ironide.IronidePanel ıronidePanel1;
     }
 }

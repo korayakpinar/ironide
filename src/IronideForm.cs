@@ -618,6 +618,16 @@ namespace Ironide {
         [DefaultValue(true)]
         public bool Sizable { get; set; } = true;
 
+        protected override Padding DefaultPadding {
+            get {
+                return new Padding(BorderThickness,
+                    ShowTitlebar ?
+                        titlePanel.Location.Y+titlePanel.Height :
+                        BorderThickness,
+                    BorderThickness,BorderThickness);
+            }
+        }
+
         #endregion
     }
 
