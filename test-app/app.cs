@@ -5,10 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Ironide.Tools;
+using Ironide;
 
 namespace test_app {
-    public partial class app:Form {
+    public partial class app:IronideForm {
         public app() {
             InitializeComponent();
         }
