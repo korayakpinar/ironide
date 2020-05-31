@@ -183,6 +183,17 @@ namespace Ironide {
 
         #endregion
 
+        #region Location override
+
+        protected override void OnLocationChanged(EventArgs e) {
+            if(maximizeButton.Text != "⬜")
+                maximizeButton.Text = "⬜";
+
+            base.OnLocationChanged(e);
+        }
+
+        #endregion
+
         #region Properties
 
         private string title = "Title";
