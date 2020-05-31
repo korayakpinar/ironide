@@ -93,8 +93,12 @@ namespace Ironide {
             using(var format = IronideConvert.ToStringFormat(TextAlign))
                 graphics.DrawString(Text,Font,fgbrush,
                     ShowTitlebar ?
-                        new Rectangle(0,titlePanel.Height,Width,Height-titlePanel.Height)
-                        : ClientRectangle,
+                        new Rectangle(BorderThickness,
+                        titlePanel.Location.Y+titlePanel.Height,Width - BorderThickness,
+                        Height-(titlePanel.Location.Y + titlePanel.Height))
+                        : new Rectangle(
+                            BorderThickness,BorderThickness,
+                            Width - BorderThickness,Height - BorderThickness),
                     format);
         }
 
@@ -293,6 +297,13 @@ namespace Ironide {
                     return;
 
                 borderThickness = value;
+                iconBox.Location = new Point(value,value);
+                titlePanel.Location = new Point(
+                    ShowIcon ?
+                        iconBox.Location.X + iconBox.Width :
+                        value
+                    ,value);
+                titlePanel.Size = new Size(Width - titlePanel.Location.X-BorderThickness,titlePanel.Height);
                 Invalidate();
             }
         }
@@ -385,8 +396,8 @@ namespace Ironide {
                 if(value)
                     titlePanel.Location = new Point(iconBox.Location.X+iconBox.Width,1);
                 else
-                    titlePanel.Location = new Point(1,1);
-                titlePanel.Size = new Size(Width - titlePanel.Location.X-1,titlePanel.Height);
+                    titlePanel.Location = new Point(BorderThickness,BorderThickness);
+                titlePanel.Size = new Size(Width - titlePanel.Location.X-BorderThickness,titlePanel.Height);
             }
         }
 

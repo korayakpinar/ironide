@@ -33,7 +33,6 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "app";
-            this.Text = "app";
             this.ResumeLayout(false);
 
         }
