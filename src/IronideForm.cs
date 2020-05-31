@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Ironide.Tools;
 
@@ -9,6 +10,18 @@ namespace Ironide {
     /// Form of Ironide.
     /// </summary>
     public partial class IronideForm:Form, IIronideControl {
+        #region Fields
+
+        private int
+            downX,
+            downY;
+
+        private const int
+            WM_NCLBUTTONDOWN = 0xA1,
+            HT_CAPTION = 0x2;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -17,6 +30,15 @@ namespace Ironide {
         public IronideForm() {
             Init();
         }
+
+        #endregion
+
+        #region API
+
+        [DllImport("user32.dll")]
+        internal static extern int SendMessage(IntPtr hWnd,int Msg,int wParam,int lParam);
+        [DllImport("user32.dll")]
+        internal static extern bool ReleaseCapture();
 
         #endregion
 
@@ -100,6 +122,24 @@ namespace Ironide {
 
         private void MinimizeButton_Click(object sender,EventArgs e) {
             WindowState = FormWindowState.Minimized;
+        }
+
+        #endregion
+
+        #region titlePanel
+
+        private void TitlePanel_MouseMove(object sender,MouseEventArgs e) {
+            if(Movable) {
+                    ReleaseCapture();
+                    SendMessage(Handle,WM_NCLBUTTONDOWN,HT_CAPTION,0);
+                }
+        }
+
+        private void TitlePanel_MouseDoubleClick(object sender,MouseEventArgs e) {
+            if(ResizeDoubleClick)
+                if(e.Button == MouseButtons.Left) {
+                    MaximizeButton_Click(null,null);
+                }
         }
 
         #endregion
@@ -382,6 +422,20 @@ namespace Ironide {
             set => minimizeButton.EnterColor=value;
         }
 
+        /// <summary>
+        /// Movable form.
+        /// </summary>
+        [Description("Movable form.")]
+        [DefaultValue(true)]
+        public bool Movable { get; set; } = true;
+
+        /// <summary>
+        /// Resize form with double click on Titlebar.
+        /// </summary>
+        [Description("Resize form with double click on Titlebar.")]
+        [DefaultValue(true)]
+        public bool ResizeDoubleClick { get; set; } = true;
+
         #endregion
     }
 
@@ -427,6 +481,8 @@ namespace Ironide {
             titlePanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             titlePanel.Size = new Size(Width-27,25);
             titlePanel.Text = Title;
+            titlePanel.MouseMove+=TitlePanel_MouseMove;
+            titlePanel.MouseDoubleClick+=TitlePanel_MouseDoubleClick;
             Controls.Add(titlePanel);
 
             #endregion
