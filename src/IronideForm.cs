@@ -236,6 +236,8 @@ namespace Ironide {
         #region Size override
 
         protected override void OnSizeChanged(EventArgs e) {
+            AdaptTitlebarSize();
+
             Invalidate();
             base.OnSizeChanged(e);
         }
@@ -254,6 +256,24 @@ namespace Ironide {
         #endregion
 
         #region Methods
+
+        #region Internal
+
+        /// <summary>
+        /// Adapt Titlebar size to current size.
+        /// </summary>
+        internal void AdaptTitlebarSize() {
+            if(titlePanel == null)
+                return;
+
+            if(ShowIcon)
+                titlePanel.Location = new Point(iconBox.Location.X+iconBox.Width,1);
+            else
+                titlePanel.Location = new Point(BorderThickness,BorderThickness);
+            titlePanel.Size = new Size(Width - titlePanel.Location.X-BorderThickness,titlePanel.Height);
+        }
+
+        #endregion
 
         /// <summary>
         /// Bring to front Titlebar.
@@ -413,11 +433,7 @@ namespace Ironide {
                     return;
 
                 base.ShowIcon = value;
-                if(value)
-                    titlePanel.Location = new Point(iconBox.Location.X+iconBox.Width,1);
-                else
-                    titlePanel.Location = new Point(BorderThickness,BorderThickness);
-                titlePanel.Size = new Size(Width - titlePanel.Location.X-BorderThickness,titlePanel.Height);
+                AdaptTitlebarSize();
             }
         }
 
