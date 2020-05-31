@@ -130,9 +130,9 @@ namespace Ironide {
 
         private void TitlePanel_MouseMove(object sender,MouseEventArgs e) {
             if(Movable) {
-                    ReleaseCapture();
-                    SendMessage(Handle,WM_NCLBUTTONDOWN,HT_CAPTION,0);
-                }
+                ReleaseCapture();
+                SendMessage(Handle,WM_NCLBUTTONDOWN,HT_CAPTION,0);
+            }
         }
 
         private void TitlePanel_MouseDoubleClick(object sender,MouseEventArgs e) {
@@ -140,6 +140,33 @@ namespace Ironide {
                 if(e.Button == MouseButtons.Left) {
                     MaximizeButton_Click(null,null);
                 }
+        }
+
+        #endregion
+
+        #region Form override
+
+        protected override void OnLoad(EventArgs e) {
+            if(Animation == IronideFormAnimation.Fade) {
+                Opacity = 0;
+                Refresh();
+            }
+
+            base.OnLoad(e);
+        }
+
+        protected override void OnShown(EventArgs e) {
+            if(Animation == IronideFormAnimation.Fade)
+                IronideAnimator.FormFadeShow(this,25);
+
+            base.OnShown(e);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e) {
+            if(Animation == IronideFormAnimation.Fade)
+                IronideAnimator.FormFadeHide(this,25);
+
+            base.OnFormClosing(e);
         }
 
         #endregion
@@ -435,6 +462,13 @@ namespace Ironide {
         [Description("Resize form with double click on Titlebar.")]
         [DefaultValue(true)]
         public bool ResizeDoubleClick { get; set; } = true;
+        
+        /// <summary>
+        /// Show-Hide Animation of Form.
+        /// </summary>
+        [Description("Show-Hide Animation of Form.")]
+        [DefaultValue(typeof(IronideFormAnimation),"None")]
+        public IronideFormAnimation Animation { get; set; } = IronideFormAnimation.None;
 
         #endregion
     }
@@ -557,5 +591,13 @@ namespace Ironide {
 
             #endregion
         }
+    }
+
+    /// <summary>
+    /// Form animation of Ironide.
+    /// </summary>
+    public enum IronideFormAnimation {
+        None = 0,
+        Fade = 1
     }
 }

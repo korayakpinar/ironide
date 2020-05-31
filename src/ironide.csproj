@@ -66,6 +66,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\IronideAnimator.cs" />
     <Compile Include="Tools\IronideConvert.cs" />
   </ItemGroup>
   <ItemGroup>
