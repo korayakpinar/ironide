@@ -12,7 +12,12 @@ namespace Ironide {
     public partial class IronideForm:Form, IIronideControl {
         #region Fields
 
+        private const short
+            gripSize = 16,
+            captionSize = 32;
+
         private const int
+            SIZE_PROCESS = 0x84,
             WM_NCLBUTTONDOWN = 0xA1,
             HT_CAPTION = 0x2;
 
@@ -140,6 +145,56 @@ namespace Ironide {
                 if(e.Button == MouseButtons.Left) {
                     MaximizeButton_Click(null,null);
                 }
+        }
+
+        #endregion
+
+        #region System override
+
+        protected override void WndProc(ref Message m) {
+            if(m.Msg == SIZE_PROCESS && Sizable) {
+                Point pos = new Point(m.LParam.ToInt32());
+                pos = PointToClient(pos);
+                if( // Bottom-Right
+                    pos.X >= ClientSize.Width - gripSize + 10 &&
+                    pos.Y >= ClientSize.Height - gripSize + 10) {
+                    m.Result = (IntPtr)17;
+                    return;
+                } else if( // Bottom-Left
+                    pos.X <= ClientRectangle.X + 20 - gripSize &&
+                    pos.Y >= ClientSize.Height - gripSize + 10) {
+                    m.Result = (IntPtr)16;
+                    return;
+                } else if( // Top-Left.
+                    pos.X <= ClientRectangle.X + 25 - gripSize &&
+                    pos.Y <= 10) {
+                    m.Result = (IntPtr)13;
+                    return;
+                } else if( // Top-Right.
+                    pos.X >= ClientSize.Width - gripSize + 10 &&
+                    pos.Y <= 10) {
+                    m.Result = (IntPtr)14;
+                    return;
+                } else if( // Right.
+                    pos.X >= ClientSize.Width - gripSize + 10) {
+                    m.Result = (IntPtr)11;
+                    return;
+                } else if( // Left.
+                    pos.X <= ClientRectangle.X + 20 - gripSize) {
+                    m.Result = (IntPtr)10;
+                    return;
+                } else if( // Top.
+                    pos.Y <= 10) {
+                    m.Result = (IntPtr)12;
+                    return;
+                } else if( // Bottom.
+                    pos.Y >= ClientSize.Height - gripSize + 10) {
+                    m.Result = (IntPtr)15;
+                    return;
+                }
+            }
+
+            base.WndProc(ref m);
         }
 
         #endregion
@@ -525,6 +580,13 @@ namespace Ironide {
             }
         }
 
+        /// <summary>
+        /// Sizable form.
+        /// </summary>
+        [Description("Sizable form.")]
+        [DefaultValue(true)]
+        public bool Sizable { get; set; } = true;
+
         #endregion
     }
 
@@ -550,6 +612,12 @@ namespace Ironide {
         /// </summary>
         protected virtual void Init() {
             #region Base
+
+            SetStyle(
+                ControlStyles.ResizeRedraw |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.OptimizedDoubleBuffer
+                ,true);
 
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.None;
