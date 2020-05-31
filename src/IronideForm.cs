@@ -12,10 +12,6 @@ namespace Ironide {
     public partial class IronideForm:Form, IIronideControl {
         #region Fields
 
-        private int
-            downX,
-            downY;
-
         private const int
             WM_NCLBUTTONDOWN = 0xA1,
             HT_CAPTION = 0x2;
@@ -297,6 +293,13 @@ namespace Ironide {
             private set => base.FormBorderStyle = value;
         }
 
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new bool HelpButton {
+            get => base.HelpButton;
+            private set => base.HelpButton = value;
+        }
+
         /// <summary>
         /// Show form icon.
         /// </summary>
@@ -486,6 +489,24 @@ namespace Ironide {
         [Description("Focus to form on form showing.")]
         [DefaultValue(true)]
         public bool FocusOnLoad { get; set; } = true;
+
+        private bool showTitlebar = true;
+        /// <summary>
+        /// Show Titlebar.
+        /// </summary>
+        [Description("Show Titlebar.")]
+        [DefaultValue(true)]
+        public bool ShowTitlebar {
+            get => showTitlebar;
+            set {
+                if(value == ShowTitlebar)
+                    return;
+
+                showTitlebar = value;
+                iconBox.Visible = value;
+                titlePanel.Visible = value;
+            }
+        }
 
         #endregion
     }
