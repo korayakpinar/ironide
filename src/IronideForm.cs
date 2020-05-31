@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Ironide.Tools;
@@ -20,10 +21,6 @@ namespace Ironide {
         #endregion
 
         #region Drawing
-
-        protected override void OnPaintBackground(PaintEventArgs e) {
-            DrawBackground(e.Graphics);
-        }
 
         protected override void OnPaint(PaintEventArgs e) {
             DrawText(e.Graphics);
@@ -72,6 +69,46 @@ namespace Ironide {
             using(var fgbrush = new SolidBrush(ForeColor))
             using(var format = IronideConvert.ToStringFormat(TextAlign))
                 graphics.DrawString(Text,Font,fgbrush,ClientRectangle,format);
+        }
+
+        #endregion
+
+        #region closeButton
+
+        private void CloseButton_Click(object sender,EventArgs e) {
+            Close();
+        }
+
+        #endregion
+
+        #region maximizeButton
+
+        private void MaximizeButton_Click(object sender,EventArgs e) {
+            WindowState =
+                WindowState == FormWindowState.Normal ?
+                    FormWindowState.Maximized :
+                    FormWindowState.Normal;
+            maximizeButton.Text =
+                WindowState == FormWindowState.Normal ?
+                    "⬜" :
+                    "❐";
+        }
+
+        #endregion
+
+        #region minimizeButton
+
+        private void MinimizeButton_Click(object sender,EventArgs e) {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        #endregion
+
+        #region Size override
+
+        protected override void OnSizeChanged(EventArgs e) {
+            Invalidate();
+            base.OnSizeChanged(e);
         }
 
         #endregion
@@ -225,6 +262,126 @@ namespace Ironide {
             }
         }
 
+        /// <summary>
+        /// Color of Titlebar background.
+        /// </summary>
+        [Description("Color of Titlebar background.")]
+        [DefaultValue(typeof(Color),"Gainsboro")]
+        public Color TitleBarBackColor {
+            get => titlePanel.BackColor;
+            set {
+                titlePanel.BackColor=value;
+                iconBox.BackColor=value;
+                closeButton.BackColor=value;
+                maximizeButton.BackColor=value;
+                minimizeButton.BackColor=value;
+            }
+        }
+
+        /// <summary>
+        /// Color of Titlebar foreground.
+        /// </summary>
+        [Description("Color of Titlebar foreground.")]
+        [DefaultValue(typeof(Color),"Black")]
+        public Color TitlebarForeColor {
+            get => titlePanel.ForeColor;
+            set {
+                titlePanel.ForeColor=value;
+                closeButton.ForeColor=value;
+                maximizeButton.ForeColor=value;
+                minimizeButton.ForeColor=value;
+            }
+        }
+
+        /// <summary>
+        /// Color of CloseBox hover.
+        /// </summary>
+        [Description("Color of CloseBox hover.")]
+        [DefaultValue(typeof(Color),"LightCoral")]
+        public Color CloseBoxHoverColor {
+            get => closeButton.HoverColor;
+            set => closeButton.HoverColor=value;
+        }
+
+        /// <summary>
+        /// Color of CloseBox enter.
+        /// </summary>
+        [Description("Color of CloseBox enter.")]
+        [DefaultValue(typeof(Color),"Red")]
+        public Color CloseBoxEnterColor {
+            get => closeButton.EnterColor;
+            set => closeButton.EnterColor=value;
+        }
+
+        public new bool MaximizeBox {
+            get => base.MaximizeBox;
+            set {
+                base.MaximizeBox = value;
+                maximizeButton.Visible=value;
+                maximizeButton.Location = new Point(
+                    closeButton.Location.X-minimizeButton.Width,0);
+                if(MinimizeBox && !value) {
+                    minimizeButton.Location = new Point(
+                        closeButton.Location.X-minimizeButton.Width,0);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Color of MaximizeBox hover.
+        /// </summary>
+        [Description("Color of MaximizeBox hover.")]
+        [DefaultValue(typeof(Color),"DeepSkyBlue")]
+        public Color MaximizeBoxHoverColor {
+            get => maximizeButton.HoverColor;
+            set => maximizeButton.HoverColor=value;
+        }
+
+        /// <summary>
+        /// Color of MaximizeBox enter.
+        /// </summary>
+        [Description("Color of MaximizeBox enter.")]
+        [DefaultValue(typeof(Color),"DodgerBlue")]
+        public Color MaximizeBoxEnterColor {
+            get => maximizeButton.EnterColor;
+            set => maximizeButton.EnterColor=value;
+        }
+
+        public new bool MinimizeBox {
+            get => base.MinimizeBox;
+            set {
+                base.MinimizeBox = value;
+                minimizeButton.Visible=value;
+                if(MaximizeBox) {
+                    minimizeButton.Location = new Point(
+                        maximizeButton.Location.X-minimizeButton.Width,0);
+                } else {
+                    minimizeButton.Location = new Point(
+                        closeButton.Location.X-minimizeButton.Width,0);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Color of MinimizeBox hover.
+        /// </summary>
+        [Description("Color of MinimizeBox hover.")]
+        [DefaultValue(typeof(Color),"DeepSkyBlue")]
+        public Color MinimizeBoxHoverColor {
+            get => minimizeButton.HoverColor;
+            set => minimizeButton.HoverColor=value;
+        }
+
+        /// <summary>
+        /// Color of MinimizeBox enter.
+        /// </summary>
+        [Description("Color of MinimizeBox enter.")]
+        [DefaultValue(typeof(Color),"DodgerBlue")]
+        public Color MinimizeBoxEnterColor {
+            get => minimizeButton.EnterColor;
+            set => minimizeButton.EnterColor=value;
+        }
+
         #endregion
     }
 
@@ -232,8 +389,16 @@ namespace Ironide {
     public partial class IronideForm {
         #region Components
 
-        private IronidePictureBox iconBox;
-        private IronidePanel titlePanel;
+        private IronidePictureBox
+            iconBox;
+
+        private IronidePanel
+            titlePanel;
+
+        private IronideButton
+            closeButton,
+            maximizeButton,
+            minimizeButton;
 
         #endregion
 
@@ -276,6 +441,63 @@ namespace Ironide {
             iconBox.Image = Icon.ToBitmap();
             iconBox.SizeMode = IronideImageSizeMode.Stretch;
             Controls.Add(iconBox);
+
+            #endregion
+
+            #region closeButton
+
+            closeButton = new IronideButton();
+            closeButton.BorderThickness = 0;
+            closeButton.BackColor = titlePanel.BackColor;
+            closeButton.ForeColor = titlePanel.ForeColor;
+            closeButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            closeButton.Text = "X";
+            closeButton.HoverColor = Color.LightCoral;
+            closeButton.EnterColor = Color.Red;
+            closeButton.TextAlign = ContentAlignment.MiddleCenter;
+            closeButton.Size = new Size(30,titlePanel.Height);
+            closeButton.Location = new Point(
+                titlePanel.Width-closeButton.Width,0);
+            closeButton.Click +=CloseButton_Click;
+            titlePanel.Controls.Add(closeButton);
+
+            #endregion
+
+            #region maximizeButton
+
+            maximizeButton = new IronideButton();
+            maximizeButton.BorderThickness = 0;
+            maximizeButton.BackColor = titlePanel.BackColor;
+            maximizeButton.ForeColor = titlePanel.ForeColor;
+            maximizeButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            maximizeButton.Text = "⬜";
+            maximizeButton.HoverColor = Color.DeepSkyBlue;
+            maximizeButton.EnterColor = Color.DodgerBlue;
+            maximizeButton.TextAlign = ContentAlignment.MiddleCenter;
+            maximizeButton.Size = new Size(30,titlePanel.Height);
+            maximizeButton.Location = new Point(
+                closeButton.Location.X-maximizeButton.Width,0);
+            maximizeButton.Click +=MaximizeButton_Click;
+            titlePanel.Controls.Add(maximizeButton);
+
+            #endregion
+
+            #region minimizeButton
+
+            minimizeButton = new IronideButton();
+            minimizeButton.BorderThickness = 0;
+            minimizeButton.BackColor = titlePanel.BackColor;
+            minimizeButton.ForeColor = titlePanel.ForeColor;
+            minimizeButton.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            minimizeButton.Text = "̶";
+            minimizeButton.HoverColor = Color.DeepSkyBlue;
+            minimizeButton.EnterColor = Color.DodgerBlue;
+            minimizeButton.TextAlign = ContentAlignment.MiddleCenter;
+            minimizeButton.Size = new Size(30,titlePanel.Height);
+            minimizeButton.Location = new Point(
+                maximizeButton.Location.X-minimizeButton.Width,0);
+            minimizeButton.Click +=MinimizeButton_Click;
+            titlePanel.Controls.Add(minimizeButton);
 
             #endregion
         }
