@@ -86,7 +86,11 @@ namespace Ironide {
         public virtual void DrawText(Graphics graphics) {
             using(var fgbrush = new SolidBrush(ForeColor))
             using(var format = IronideConvert.ToStringFormat(TextAlign))
-                graphics.DrawString(Text,Font,fgbrush,ClientRectangle,format);
+                graphics.DrawString(Text,Font,fgbrush,
+                    ShowTitlebar ?
+                        new Rectangle(0,titlePanel.Height,Width,Height-titlePanel.Height)
+                        : ClientRectangle,
+                    format);
         }
 
         #endregion
@@ -505,6 +509,8 @@ namespace Ironide {
                 showTitlebar = value;
                 iconBox.Visible = value;
                 titlePanel.Visible = value;
+                if(Text != "")
+                    Invalidate();
             }
         }
 
