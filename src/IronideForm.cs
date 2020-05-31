@@ -253,6 +253,26 @@ namespace Ironide {
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Bring to front Titlebar.
+        /// </summary>
+        public void BringToFrontTitlebar() {
+            iconBox.BringToFront();
+            titlePanel.BringToFront();
+        }
+
+        /// <summary>
+        /// Send to front Titlebar.
+        /// </summary>
+        public void SendToBackTitlebar() {
+            iconBox.SendToBack();
+            titlePanel.SendToBack();
+        }
+
+        #endregion
+
         #region Properties
 
         private string title = "Title";
