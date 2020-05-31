@@ -157,14 +157,14 @@ namespace Ironide {
 
         protected override void OnShown(EventArgs e) {
             if(Animation == IronideFormAnimation.Fade)
-                IronideAnimator.FormFadeShow(this,25);
+                IronideAnimator.FormFadeShow(this,(int)AnimationDelay);
 
             base.OnShown(e);
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e) {
             if(Animation == IronideFormAnimation.Fade)
-                IronideAnimator.FormFadeHide(this,25);
+                IronideAnimator.FormFadeHide(this,(int)AnimationDelay);
 
             base.OnFormClosing(e);
         }
@@ -469,6 +469,13 @@ namespace Ironide {
         [Description("Show-Hide Animation of Form.")]
         [DefaultValue(typeof(IronideFormAnimation),"None")]
         public IronideFormAnimation Animation { get; set; } = IronideFormAnimation.None;
+
+        /// <summary>
+        /// Frame delay of Fade animation.
+        /// </summary>
+        [Description("Frame delay of Fade animation.")]
+        [DefaultValue(25)]
+        public uint AnimationDelay { get; set; } = 25;
 
         #endregion
     }
