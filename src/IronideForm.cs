@@ -159,6 +159,9 @@ namespace Ironide {
             if(Animation == IronideFormAnimation.Fade)
                 IronideAnimator.FormFadeShow(this,(int)AnimationDelay);
 
+            if(FocusOnLoad)
+                Focus();
+
             base.OnShown(e);
         }
 
@@ -462,7 +465,7 @@ namespace Ironide {
         [Description("Resize form with double click on Titlebar.")]
         [DefaultValue(true)]
         public bool ResizeDoubleClick { get; set; } = true;
-        
+
         /// <summary>
         /// Show-Hide Animation of Form.
         /// </summary>
@@ -476,6 +479,13 @@ namespace Ironide {
         [Description("Frame delay of Fade animation.")]
         [DefaultValue(25)]
         public uint AnimationDelay { get; set; } = 25;
+
+        /// <summary>
+        /// Focus to form on form showing.
+        /// </summary>
+        [Description("Focus to form on form showing.")]
+        [DefaultValue(true)]
+        public bool FocusOnLoad { get; set; } = true;
 
         #endregion
     }
